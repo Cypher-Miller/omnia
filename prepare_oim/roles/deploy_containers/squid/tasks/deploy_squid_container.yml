@@ -25,6 +25,8 @@
     src: "{{ squid_conf_tmp_path }}"
     dest: "{{ squid_conf_shared_path }}"
     mode: "{{ squid_dir_permissions }}"
+  notify:
+    - Reload squid
 
 - name: Deploy squid container and check deployment status
   block:
@@ -33,7 +35,7 @@
         name: "{{ squid_container_name }}"
         image: "{{ squid_image }}"
         state: present
-        restart_policy: "no"
+        restart_policy: "on-failure"
         hostname: "{{ squid_container_name }}"
         volumes: "{{ volumes }}"
         privileged: true
