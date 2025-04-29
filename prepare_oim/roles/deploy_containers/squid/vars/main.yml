@@ -39,7 +39,7 @@ input_configs_file:
   - "{{ hostvars['localhost']['input_project_dir'] }}/network_spec.yml"
   - "{{ hostvars['localhost']['input_project_dir'] }}/local_repo_config.yml"
   - "{{ hostvars['localhost']['input_project_dir'] }}/software_config.json"
-input_configs_syntax_fail_msg: "Failed. Syntax errors present in either network_spec.yml or local_repo_config.yml. Fix the errors and re-run."
+input_configs_syntax_fail_msg: "Failed. Syntax errors present in either network_spec.yml, software_config.json, or local_repo_config.yml. Fix the errors and re-run."
 
 # Usage: deploy_squid_container.yml
 squid_conf_tmp_path:  "{{ role_path }}/templates/squid_conf_template.j2"

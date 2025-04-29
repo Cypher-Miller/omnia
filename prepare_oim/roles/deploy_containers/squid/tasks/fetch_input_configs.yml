@@ -20,7 +20,7 @@
       register: include_config
       with_items: "{{ input_configs_file }}"
   rescue:
-    - name: Failed to include network_spec.yml and local_repo_config.yml
+    - name: Failed to include input configs
       ansible.builtin.fail:
         msg: "{{ input_configs_syntax_fail_msg }} Error: {{ include_config.message }}"
 
@@ -28,8 +28,3 @@
   ansible.builtin.set_fact:
     network_data: "{{ network_data | default({}) | combine({item.key: item.value}) }}"
   with_dict: "{{ Networks }}"
-
-# - name: Parse local_repo data
-#   ansible.builtin.set_fact:
-#     local_repo: "{{ local_repo | default({}) | combine({item.key: item.value}) }}"
-#   with_dict: "{{ Networks }}"

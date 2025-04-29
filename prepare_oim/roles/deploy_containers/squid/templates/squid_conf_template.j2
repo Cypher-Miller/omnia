@@ -7,7 +7,7 @@ acl localnet src {{ network_data.admin_network.dynamic_range.split('-')[0] }}/{{
 
 # List of ports where access is allowed
 {% set listOfAddedPorts = [] %}
-# Ports from squid_safe_ports from vars file
+# Ports from squid_safe_ports in vars file
 {% for port in squid_safe_ports %}
 {% if port not in listOfAddedPorts %}
 {% set tmp = listOfAddedPorts.append(port) %}
