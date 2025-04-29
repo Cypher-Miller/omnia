@@ -6,7 +6,28 @@ acl localnet src {{ network_data.admin_network.static_range.split('-')[0] }}/{{ 
 acl localnet src {{ network_data.admin_network.dynamic_range.split('-')[0] }}/{{ network_data.admin_network.netmask_bits }}
 
 # List of ports where access is allowed
-acl Safe_ports port 80          # http
+{% set listOfAddedPorts = [] %}
+# Ports from squid_safe_ports from vars file
+{% for port in squid_safe_ports %}
+{% if port not in listOfAddedPorts %}
+{% set tmp = listOfAddedPorts.append(port) %}
+acl Safe_ports port {{ port }}
+{% endif %}
+{% endfor %}
+
+# Ports from local_repo_config.yml
+{% for repo in omnia_repo_url_rhel %}
+{% if repo.port not in listOfAddedPorts %}
+{% set tmp = listOfAddedPorts.append(repo.port) %}
+acl Safe_ports port {{ repo.port }}
+{% endif %}
+{% endfor %}
+{% for repo in rhel_os_url %}
+{% if repo.port not in listOfAddedPorts %}
+{% set tmp = listOfAddedPorts.append(repo.port) %}
+acl Safe_ports port {{ repo.port }}
+{% endif %}
+{% endfor %}
 
 #
 # Recommended minimum Access Permission configuration:
@@ -15,7 +36,7 @@ acl Safe_ports port 80          # http
 http_access deny !Safe_ports
 
 # Deny CONNECT to other than secure SSL ports
-http_access deny CONNECT !SSL_ports
+#http_access deny CONNECT !SSL_ports
 
 # Only allow cachemgr access from localhost
 http_access allow localhost manager

@@ -19,7 +19,6 @@
       ansible.builtin.include_vars: "{{ item }}"
       register: include_config
       with_items: "{{ input_configs_file }}"
-      tags: init
   rescue:
     - name: Failed to include network_spec.yml and local_repo_config.yml
       ansible.builtin.fail:
@@ -29,3 +28,8 @@
   ansible.builtin.set_fact:
     network_data: "{{ network_data | default({}) | combine({item.key: item.value}) }}"
   with_dict: "{{ Networks }}"
+
+# - name: Parse local_repo data
+#   ansible.builtin.set_fact:
+#     local_repo: "{{ local_repo | default({}) | combine({item.key: item.value}) }}"
+#   with_dict: "{{ Networks }}"

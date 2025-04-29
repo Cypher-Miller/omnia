@@ -19,6 +19,9 @@ squid_logs_dir: "{{ shared_storage_path }}/log/squid"
 squid_dir_permissions: "0777" #"0755"
 logs_dir_permission: "0777" #"0644"
 squid_container_name: "omnia_squid"
+squid_safe_ports:
+  - 80    #http
+  - 443   #https
 squid_image: "docker.io/ubuntu/squid"
 squid_deployed_msg: "The {{ squid_container_name }} container has been successfully deployed."
 squid_deployed_fail_msg:
@@ -27,9 +30,15 @@ squid_deployed_fail_msg:
   After the cleanup, you can re-run the original playbook to deploy the {{ squid_container_name }} container successfully.
 
 # Usage: fetch_input_configs.yml
+beegfs_version: "omnia_default"
+amdgpu_version: "omnia_default"
+rocm_version: "omnia_default"
+bcm_roce_libraries_version: "omnia_default"
+intelgaudi_version: "omnia_default"
 input_configs_file:
   - "{{ hostvars['localhost']['input_project_dir'] }}/network_spec.yml"
   - "{{ hostvars['localhost']['input_project_dir'] }}/local_repo_config.yml"
+  - "{{ hostvars['localhost']['input_project_dir'] }}/software_config.json"
 input_configs_syntax_fail_msg: "Failed. Syntax errors present in either network_spec.yml or local_repo_config.yml. Fix the errors and re-run."
 
 # Usage: deploy_squid_container.yml
@@ -46,3 +55,6 @@ volumes:
   - "{{ squid_shared_path }}/squid.conf:/etc/squid/squid.conf"
   # - "{{ squid_shared_path }}/snippet.conf:/etc/squid/conf.d/snippet.conf"
   - "{{ squid_logs_dir }}:/var/log/squid"
+
+# Usage: handlers/main.yml
+reload_squid_cmd: /usr/sbin/squid -k restart
