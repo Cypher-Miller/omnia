@@ -60,6 +60,6 @@
         - squid_container_status.containers[0].State.Status == 'running'
 
   rescue:
-    - name: squid container deployment failed
+    - name: Squid container deployment failed
       ansible.builtin.fail:
         msg: "{{ squid_deployed_fail_msg }}"
