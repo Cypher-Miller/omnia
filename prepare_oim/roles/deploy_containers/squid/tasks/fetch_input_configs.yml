@@ -13,8 +13,19 @@
 #  limitations under the License.
 ---
 
-- name: Fetch input configs; local_repo, network_spec, local_repo_config
-  ansible.builtin.include_tasks: fetch_input_configs.yml
+- name: Include input configs
+  block:
+    - name: Include input configs
+      ansible.builtin.include_vars: "{{ item }}"
+      register: include_config
+      with_items: "{{ input_configs_file }}"
+      tags: init
+  rescue:
+    - name: Failed to include network_spec.yml and local_repo_config.yml
+      ansible.builtin.fail:
+        msg: "{{ input_configs_syntax_fail_msg }} Error: {{ include_config.message }}"
 
-- name: Deploy squid container tasks
-  ansible.builtin.include_tasks: deploy_squid_container.yml
+- name: Parse network_spec data
+  ansible.builtin.set_fact:
+    network_data: "{{ network_data | default({}) | combine({item.key: item.value}) }}"
+  with_dict: "{{ Networks }}"
