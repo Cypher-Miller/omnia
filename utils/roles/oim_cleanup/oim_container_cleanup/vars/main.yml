@@ -82,3 +82,11 @@ kubespray_container_name: "omnia_kubespray_{{ hostvars['localhost']['kubespray_v
 kubespray_cleanup_directory:
   - "{{ omnia_nfs_share }}/kubespray"
   - "{{ omnia_nfs_share }}/log/kubespray"
+
+# Usage: cleanup_squid.yml
+squid_container_name: "omnia_squid"
+squid_cleanup_directory:
+  - "{{ omnia_nfs_share }}/squid"
+  - "{{ omnia_nfs_share }}/log/squid"
+squid_firewall_ports:
+  - "3128/tcp"
