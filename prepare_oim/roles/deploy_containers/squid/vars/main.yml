@@ -22,6 +22,7 @@ squid_container_name: "omnia_squid"
 squid_safe_ports:
   - 80    # http
   - 443   # https
+  - 2225  # pulp
 squid_image: "docker.io/ubuntu/squid"
 squid_deployed_msg: "The {{ squid_container_name }} container has been successfully deployed."
 squid_deployed_fail_msg:
