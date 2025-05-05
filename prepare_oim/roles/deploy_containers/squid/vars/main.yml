@@ -16,8 +16,8 @@
 shared_storage_path: "{{ oim_shared_path }}/omnia"
 squid_shared_path: "{{ shared_storage_path }}/squid"
 squid_logs_dir: "{{ shared_storage_path }}/log/squid"
-squid_dir_permissions: "0777" # "0755"
-logs_dir_permission: "0777" # "0644"
+squid_dir_permissions: "0755"
+logs_dir_permission: "0777"
 squid_container_name: "omnia_squid"
 squid_safe_ports:
   - 80    # http
