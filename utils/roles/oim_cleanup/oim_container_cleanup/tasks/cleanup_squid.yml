@@ -50,6 +50,6 @@
       changed_when: true
 
   rescue:
-    - name: squid container removal failed
+    - name: Squid container removal failed
       ansible.builtin.fail:
         msg: "{{ squid_container_name }} {{ container_removal_failure_msg }}"
